@@ -67,7 +67,7 @@ def generateStage(service) {
             //sh "chmod +x dev-php-demo-ecs-deploy.sh"
 	    //sh "bash ./dev-php-demo-ecs-deploy.sh ${service} ${tagName}"
 	    sh "chmod +x changeTag.sh"
-	    sh "./changeTag.sh ${tagName}"
+	    sh "./changeTag.sh ${service} ${tagName}"
 		try{
 		  sh "kubectl apply -f ."
 		}
