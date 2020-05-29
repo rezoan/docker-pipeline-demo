@@ -1,2 +1,2 @@
 #!/bin/bash
-sed "s/tagVersion/$1/g" podsbaseconfig > pods.yml
+sed "s/serviceName/$1/g;s/tagVersion/$2/g" podsbaseconfig > pods.yml
