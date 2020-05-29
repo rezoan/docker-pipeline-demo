@@ -1,6 +1,4 @@
 #!/bin/bash
-
-#Script to get current task definition, and based on that add new ecr image address to old template and remove attributes that are not needed, then we send new task definition, get new revision number from output and update service
 set -e
 ECR_IMAGE="700707367057.dkr.ecr.us-east-1.amazonaws.com/$1:$2"
 TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition ecs-$1 --region us-east-1)
