@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: docker-pipeline-demo
+  labels:
+    app: docker-pipeline-demo
+spec:
+  containers:
+    - name: docker-pipeline-demo
+      image: 700707367057.dkr.ecr.us-east-1.amazonaws.com/php-demo:feature-feature01
+      ports:
+        - containerPort: 8080
