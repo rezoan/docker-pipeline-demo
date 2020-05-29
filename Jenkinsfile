@@ -39,7 +39,7 @@ def generateStage(service) {
     return {
       stage("Build ${service}"){
 	      echo "Building ${service}"
-	      sh "docker build --no-cache -t 700707367057.dkr.ecr.us-east-1.amazonaws.com/${service}:${tagName} -f Dockerfile ."
+	      sh "docker build --no-cache -t 700707367057.dkr.ecr.us-east-1.amazonaws.com/${service}:${tagName} -f Dockerfile.${service} ."
       }
       stage("Push ${service}"){
               sh "eval \$(aws ecr get-login --no-include-email --region us-east-1)"
