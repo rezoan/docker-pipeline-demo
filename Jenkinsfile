@@ -65,7 +65,7 @@ def generateStage(service) {
         else{
             //sh "chmod +x dev-php-demo-ecs-deploy.sh"
 	    //sh "bash ./dev-php-demo-ecs-deploy.sh ${service} ${tagName}"
-	    sh "eksctl create cluster --name eks-cluster-php-demo-from-jenkins --version 1.16 --region us-east-1a --fargate"
+	    sh "eksctl create cluster --name eks-cluster-php-demo-from-jenkins --version 1.16 --region us-east-1 --zones=us-east-1a,us-east-1b,us-east-1d --fargate"
 	    sh "kubectl run php-demo-deployment-from-jenkins --image=700707367057.dkr.ecr.us-east-1.amazonaws.com/php-demo:feature-feature01 --requests=cpu=500m --expose --port=80"
 	    sh "kubectl expose php-demo-deployment-from-jenkins --type=LoadBalancer --name=php-demo-external-endpoint-from-jenkins"
             sh "kubectl get services php-demo-external-endpoint-from-jenkins"
