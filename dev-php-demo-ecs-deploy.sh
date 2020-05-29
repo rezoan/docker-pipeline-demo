@@ -8,4 +8,4 @@ NEW_TASK_INFO=$(aws ecs register-task-definition --region us-east-1 --cli-input-
 echo "$NEW_TASK_INFO"
 NEW_REVISION=$(echo $NEW_TASK_INFO | jq '.taskDefinition.revision')
 echo "$NEW_REVISION"
-aws ecs update-service --cluster php-demo-ecs-cluster --service service-dev-$1 --task-definition dev-$1:${NEW_REVISION} --region us-east-1
+aws ecs update-service --cluster php-demo-ecs-cluster --service php-demo-ecs-service --task-definition dev-$1:${NEW_REVISION} --region us-east-1
