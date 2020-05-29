@@ -1,29 +1,29 @@
 def allServices=["gateway", "users", "plans", "integrations", "php-demo"]
-//def gatewayService=["gateway"]
-//def usersService=["users"]
-//def plansService=["plans"]
-//def integrationsService=["integrations"]
-def phpDemoService = [allServices[4]]
+def gatewayService=[allServices[0]]
+def usersService=[allServices[1]]
+def plansService=[allServices[2]]
+def integrationsService=[allServices[3]]
+def phpDemoService=[allServices[4]]
 
 def parallelStagesMap = allServices.collectEntries {
     ["${it}" : generateStage(it)]
 }
 
-//def gatewayStagesMap = gatewayService.collectEntries {
-//    ["${it}" : generateStage(it)]
-//}
+def gatewayStagesMap = gatewayService.collectEntries {
+    ["${it}" : generateStage(it)]
+}
 
-//def usersStagesMap = usersService.collectEntries {
-//    ["${it}" : generateStage(it)]
-//}
+def usersStagesMap = usersService.collectEntries {
+    ["${it}" : generateStage(it)]
+}
 
-//def plansStagesMap = plansService.collectEntries {
-//    ["${it}" : generateStage(it)]
-//}
+def plansStagesMap = plansService.collectEntries {
+    ["${it}" : generateStage(it)]
+}
 
-//def integrationsStagesMap = integrationsService.collectEntries {
-//    ["${it}" : generateStage(it)]
-//}
+def integrationsStagesMap = integrationsService.collectEntries {
+    ["${it}" : generateStage(it)]
+}
 
 def phpDemoStagesMap = phpDemoService.collectEntries {
     ["${it}" : generateStage(it)]
@@ -58,28 +58,27 @@ def generateStage(service) {
 
             if( "${USER_INPUT}" == true){
                 //deploy to eks cluster
-            } else {
-                echo 'production deployment aborted'
-            }
-        }
-        else{
-	    
-            sh "chmod +x dev-php-demo-ecs-deploy.sh"
-	    sh "./dev-php-demo-ecs-deploy.sh ${service} ${tagName}"
-	    
-	    //deploy to eks
-	    //sh "eksctl delete cluster --region=us-east-1 --name=eks-cluster-php-demo-from-jenkins-pipeline"
-	    //sh "eksctl create cluster --name eks-cluster-php-demo-from-jenkins-pipeline --version 1.16 --region us-east-1 --zones=us-east-1a,us-east-1b,us-east-1d --fargate"
-	    sh "chmod +x changeTag.sh"
-	    sh "./changeTag.sh ${service} ${tagName}"
+		//sh "eksctl delete cluster --region=us-east-1 --name=eks-cluster-php-demo-from-jenkins-pipeline"
+		//sh "eksctl create cluster --name eks-cluster-php-demo-from-jenkins-pipeline --version 1.16 --region us-east-1 --zones=us-east-1a,us-east-1b,us-east-1d --fargate"
+		sh "chmod +x changeTag.sh"
+		sh "./changeTag.sh ${service} ${tagName}"
 		try{
 		  sh "kubectl apply -f ."
 		}
 		catch(error){
 		  sh "kubectl create -f ."
 		}
-	    sh "kubectl get pods"
-	    sh "kubectl get svc"
+		sh "kubectl get pods"
+		sh "kubectl get svc"
+		    
+            } else {
+                echo 'production deployment aborted!'
+            }
+        }
+        else{
+	    //deploy to ecs
+            sh "chmod +x dev-php-demo-ecs-deploy.sh"
+	    sh "./dev-php-demo-ecs-deploy.sh ${service} ${tagName}"
         }
       }
     }
