@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: docker-pipeline-demo
-      image: 700707367057.dkr.ecr.us-east-1.amazonaws.com/php-demo:tagVersion
+      image: 700707367057.dkr.ecr.us-east-1.amazonaws.com/serviceName:tagVersion
       ports:
         - containerPort: 8080
