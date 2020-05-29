@@ -63,10 +63,19 @@ def generateStage(service) {
             }
         }
         else{
-	    sh "eksctl delete cluster --region=us-east-1 --name=eks-cluster-php-demo-from-jenkins"
+	    
             //sh "chmod +x dev-php-demo-ecs-deploy.sh"
 	    //sh "bash ./dev-php-demo-ecs-deploy.sh ${service} ${tagName}"
-	    sh "eksctl create cluster --name eks-cluster-php-demo-from-jenkins-pipeline --version 1.16 --region us-east-1 --zones=us-east-1a,us-east-1b,us-east-1d --fargate"
+	    sh "chmod +x changeTag.sh"
+	    sh "./changeTag.sh ${tagName}"
+		try{
+		  sh "kubectl apply -f ."
+		}
+		catch(error){
+		  sh "kubectl create -f ."
+		}
+	    //sh "eksctl delete cluster --region=us-east-1 --name=eks-cluster-php-demo-from-jenkins-pipeline"
+	    //sh "eksctl create cluster --name eks-cluster-php-demo-from-jenkins-pipeline --version 1.16 --region us-east-1 --zones=us-east-1a,us-east-1b,us-east-1d --fargate"
 	    //sh "kubectl rollout restart deployment/php-demo-deployment-from-jenkins"
 	    //sh "kubectl run php-demo-deployment-from-jenkins --image=700707367057.dkr.ecr.us-east-1.amazonaws.com/php-demo:feature-feature01 --requests=cpu=500m --expose --port=80"
 	    //sh "kubectl expose php-demo-deployment-from-jenkins --type=LoadBalancer --name=php-demo-external-endpoint-from-jenkins"
