@@ -9,5 +9,5 @@ NEW_TASK_INFO=$(aws ecs register-task-definition --region us-east-1 --cli-input-
 echo " Task Info: $NEW_TASK_INFO"
 NEW_REVISION=$(echo $NEW_TASK_INFO | jq '.taskDefinition.revision')
 echo "Revision: $NEW_REVISION"
-aws ecs list-services --cluster ecs-cluster
+aws ecs list-services --cluster ecs-cluster --region us-east-1
 aws ecs update-service --cluster ecs-cluster --service ecs-$1 --task-definition ecs-$1:${NEW_REVISION} --region us-east-1
